@@ -9,13 +9,15 @@ const receiveArgs = async (req) => {
   return JSON.parse(data);
 };
 
+const crud = { get: 'read', post: 'create', put: 'update', delete: 'delete' };
+
 module.exports = (routing, port) => {
   http.createServer(async (req, res) => {
-    const { url, socket } = req;
-    const [name, method, id] = url.substring(1).split('/');
+    const { method, url, socket } = req;
+    const [name, id] = url.substring(1).split('/');
     const entity = routing[name];
     if (!entity) return res.end('Not found');
-    const handler = entity[method];
+    const handler = entity[crud[method.toLowerCase()]];
     if (!handler) return res.end('Not found');
     const src = handler.toString();
     const signature = src.substring(0, src.indexOf(')'));
@@ -27,5 +29,5 @@ module.exports = (routing, port) => {
     res.end(JSON.stringify(result.rows));
   }).listen(port);
 
-  console.log(`API on port ${port}`);
+  console.log(`API (http) on port ${port}`);
 };

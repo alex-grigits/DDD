@@ -2,13 +2,14 @@
 
 const fsp = require('node:fs').promises;
 const path = require('node:path');
-const server = require('./ws.js');
+const { STATIC_SERVER_PORT, SERVER_PORT, TRANSPORT } = require('./config');
+const transportPath = `./${TRANSPORT}.js`;
+const server = require(transportPath);
 const staticServer = require('./static.js');
 const load = require('./load.js');
 const db = require('./db.js');
 const hash = require('./hash.js');
 const logger = require('./logger.js');
-const { STATIC_SERVER_PORT, SERVER_PORT } = require('./config');
 
 const sandbox = {
   console: Object.freeze(logger),
