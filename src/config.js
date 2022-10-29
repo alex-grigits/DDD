@@ -1,6 +1,7 @@
 module.exports = {
   STATIC_SERVER_PORT: 8000,
   SERVER_PORT: 8001,
+  TRANSPORT: 'ws', // 'http' | 'ws'
   DB_ACCESS_PARAMETERS: {
     host: '127.0.0.1',
     port: 5432,
