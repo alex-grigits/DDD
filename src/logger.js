@@ -3,19 +3,13 @@
 const fs = require('node:fs');
 const util = require('node:util');
 const path = require('node:path');
-
-const COLORS = {
-  info: '\x1b[1;37m',
-  debug: '\x1b[1;33m',
-  error: '\x1b[0;31m',
-  system: '\x1b[1;34m',
-  access: '\x1b[1;38m',
-};
-
-const DATETIME_LENGTH = 19;
+const { LOGGER_OPTIONS: { COLORS, DATETIME_LENGTH }} = require('./config');
 
 class Logger {
   constructor(logPath) {
+    if (!fs.existsSync(logPath)) {
+      fs.mkdirSync(logPath);
+    }
     this.path = logPath;
     const date = new Date().toISOString().substring(0, 10);
     const filePath = path.join(logPath, `${date}.log`);
