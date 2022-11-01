@@ -1,11 +1,8 @@
 'use strict';
 
 const pg = require('pg');
-const { DB_ACCESS_PARAMETERS } = require('./config');
 
-const pool = new pg.Pool({ ...DB_ACCESS_PARAMETERS });
-
-module.exports = (table) => ({
+const operations = (pool) => (table) => ({
   query(sql, args) {
     return pool.query(sql, args);
   },
@@ -52,3 +49,5 @@ module.exports = (table) => ({
     return pool.query(sql, [id]);
   },
 });
+
+module.exports = (accessParameters) => operations(new pg.Pool(accessParameters));

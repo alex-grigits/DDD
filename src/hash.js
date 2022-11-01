@@ -1,14 +1,14 @@
 'use strict';
 
 const crypto = require('node:crypto');
-const { HASH_OPTIONS: { BYTE_SIZE, ENCODING, KEY_LENGTH } } = require('./config');
 
-const hash = (password) => new Promise((resolve, reject) => {
-  const salt = crypto.randomBytes(BYTE_SIZE).toString(ENCODING);
-  crypto.scrypt(password, salt, KEY_LENGTH, (err, result) => {
+const hash = (options) => (password) => new Promise((resolve, reject) => {
+  const {byteSize, encoding, keyLen} = options;
+  const salt = crypto.randomBytes(byteSize).toString(encoding);
+  crypto.scrypt(password, salt, keyLen, (err, result) => {
     if (err) reject(err);
-    resolve(salt + ':' + result.toString(ENCODING));
+    resolve(salt + ':' + result.toString(encoding));
   });
 });
 
-module.exports = hash;
+module.exports = (config) => hash(config);
