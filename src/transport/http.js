@@ -11,8 +11,16 @@ const receiveArgs = async (req) => {
 
 const crud = { get: 'read', post: 'create', put: 'update', delete: 'delete' };
 
+const HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Request-Method': '*',
+  'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
+  'Access-Control-Allow-Headers': '*',
+}
+
 module.exports = (routing, port) => {
   http.createServer(async (req, res) => {
+    res.writeHead(200, HEADERS);
     const { method, url, socket } = req;
     const [name, id] = url.substring(1).split('/');
     const entity = routing[name];

@@ -3,19 +3,63 @@
 const http = require('node:http');
 const path = require('node:path');
 const fs = require('node:fs');
+const ejs = require('ejs');
 
-module.exports = (root, port) => {
+// const MIME_TYPES = {
+//   default: 'application/octet-stream',
+//   html: 'text/html; charset=UTF-8',
+//   js: 'application/javascript; charset=UTF-8',
+//   css: 'text/css',
+//   png: 'image/png',
+//   jpg: 'image/jpg',
+//   gif: 'image/gif',
+//   ico: 'image/x-icon',
+//   svg: 'image/svg+xml',
+// };
+
+// const STATIC_PATH = path.join(process.cwd(), './static');
+
+// const toBool = [() => true, () => false];
+
+// const prepareFile = async (url) => {
+//   const paths = [STATIC_PATH, url];
+//   if (url.endsWith('/')) paths.push('index.html');
+//   const filePath = path.join(...paths);
+//   const pathTraversal = !filePath.startsWith(STATIC_PATH);
+//   const exists = await fs.promises.access(filePath).then(...toBool);
+//   const found = !pathTraversal && exists;
+//   const streamPath = found ? filePath : STATIC_PATH + '/404.html';
+//   const ext = path.extname(streamPath).substring(1).toLowerCase();
+//   const stream = fs.createReadStream(streamPath);
+//   return { found, ext, stream };
+// };
+
+module.exports = (config) => (inputData = {}) => {
   http.createServer(async (req, res) => {
-    const url = req.url === '/' ? '/index.html' : req.url;
-    const filePath = path.join(root, url);
+    // const file = await prepareFile(req.url);
+    // const statusCode = file.found ? 200 : 404;
+    // const mimeType = MIME_TYPES[file.ext] || MIME_TYPES.default;
+    // res.writeHead(statusCode, { 'Content-Type': mimeType });
+    // res.render(file, {
+    //   welcomeMessage: "This message was rendered on the server",
+    // })
+    // file.stream.pipe(res);
+    // console.log(`${req.method} ${req.url} ${statusCode}`);
+    const url = req.url === '/' ? `/index.${config.renderEngine}` : req.url;
+    const filePath = path.join(config.root, url);
     try {
-      const data = await fs.promises.readFile(filePath);
+      let data;
+      if (config.renderEngine === 'ejs') {
+        data = await ejs.renderFile(filePath, inputData);
+      } else {
+        data = await fs.promises.readFile(filePath);
+      }
       res.end(data);
     } catch (err) {
       res.statusCode = 404;
       res.end('"File is not found"');
     }
-  }).listen(port);
+  }).listen(config.port);
 
-  console.log(`Static on port ${port}`);
+  console.log(`Static on port ${config.port}`);
 };
