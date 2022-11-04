@@ -6,16 +6,16 @@ const config = require('./config');
 const transportPath = `./transport/${config.apiServer.transport}.js`;
 const server = require(transportPath);
 const staticServer = require('./static.js')(config.staticServer);
-const load = require('./load.js')(config.loaderRunOptions);
 const db = require('./db.js')(config.dbAccessParameters);
 const hash = require('./hash.js')(config.hashOptions);
 const logger = require('./logger.js')(config.logger);
 
-const sandbox = {
+const dependencies = {
   console: Object.freeze(logger),
   db: Object.freeze(db),
   common: { hash },
 };
+
 const apiPath = path.join(process.cwd(), './api');
 const routing = {};
 
@@ -27,7 +27,7 @@ const routing = {};
     const filePath = path.join(apiPath, fileName);
     const serviceName = path.basename(fileName, '.js');
     services.push(serviceName);
-    routing[serviceName] = await load(filePath, sandbox);
+    routing[serviceName] = require(filePath)(dependencies);
   }
 
   staticServer({ services });

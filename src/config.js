@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   staticServer: {
     port: 8000,
@@ -34,4 +36,4 @@ module.exports = {
     },
     dateTimeLength: 19,
   }
-}
+};

@@ -2,7 +2,9 @@
 
 const pg = require('pg');
 
-const operations = (pool) => (table) => ({
+const initDb = (options) => new pg.Pool(options);
+
+const crud = (pool) => (table) => ({
   query(sql, args) {
     return pool.query(sql, args);
   },
@@ -50,4 +52,4 @@ const operations = (pool) => (table) => ({
   },
 });
 
-module.exports = (accessParameters) => operations(new pg.Pool(accessParameters));
+module.exports = (accessParameters) => crud(initDb(accessParameters));

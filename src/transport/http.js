@@ -16,7 +16,7 @@ const HEADERS = {
   'Access-Control-Request-Method': '*',
   'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
   'Access-Control-Allow-Headers': '*',
-}
+};
 
 module.exports = (routing, port) => {
   http.createServer(async (req, res) => {
