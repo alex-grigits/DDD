@@ -3,7 +3,7 @@ module.exports = ({ db, common, console }) => {
 
   return {
     read(id) {
-      console.log('id => ', id);
+      console.info({ userId: id || 'all' });
       return usersDb.read(id, ['id', 'login']);
     },
 

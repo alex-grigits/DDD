@@ -3,7 +3,7 @@ module.exports = ({ db, console }) => {
 
   return {
     read(id) {
-      console.log('id => ', id);
+      console.info({ userId: id || 'all' });
       return countryDb.read(id);
     },
     find(mask) {
