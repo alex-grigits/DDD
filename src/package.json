@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "ejs": "^3.1.8"
+  },
+  "scripts": {
+    "lint": "npx eslint . --fix"
   }
 }

@@ -19,7 +19,7 @@ const config = {
       read: ['id'],
     }
   },
-}
+};
 
 const getProtocol = (url) => new URL(url).protocol.replace(':', '');
 
@@ -34,11 +34,11 @@ const createAPI = (structure, transport) => {
       api[serviceName][methodName] = (...args) => {
         const packet = { name: serviceName, method: methodName, args };
         return transport(packet);
-      }
-    };
+      };
+    }
   }
   return api;
-}
+};
 
 const createHttpEndpoint = (baseUrl, fetch) => (packet) => {
   const { name, method, args } = packet;
@@ -65,21 +65,19 @@ const createHttpEndpoint = (baseUrl, fetch) => (packet) => {
   });
 };
 
-const createWsEndpoint = (socket) => (packet) => {
-  return new Promise((resolve) => {
-    socket.send(JSON.stringify(packet));
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      resolve(data);
-    };
-  });
-};
+const createWsEndpoint = (socket) => (packet) => new Promise((resolve) => {
+  socket.send(JSON.stringify(packet));
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    resolve(data);
+  };
+});
 
 const http = (url, structure) => {
   const transport = createHttpEndpoint(url, fetch);
   const api = createAPI(structure, transport);
   return Promise.resolve(api);
-}
+};
 
 const ws = (url, structure) => {
   const socket = new WebSocket(url);
@@ -88,7 +86,7 @@ const ws = (url, structure) => {
   return new Promise((resolve) => {
     socket.addEventListener('open', () => resolve(api));
   });
-}
+};
 
 const TRANSPORTS = { http, ws };
 
@@ -122,11 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const res = await api[selectedService].read();
       console.table(res);
-      output.innerText = JSON.stringify(res, null ,4);
+      output.innerText = JSON.stringify(res, null, 4);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   button.addEventListener('click', getAllData(output));
 });

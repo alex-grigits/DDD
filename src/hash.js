@@ -3,7 +3,7 @@
 const crypto = require('node:crypto');
 
 const hash = (options) => (password) => new Promise((resolve, reject) => {
-  const {byteSize, encoding, keyLen} = options;
+  const { byteSize, encoding, keyLen } = options;
   const salt = crypto.randomBytes(byteSize).toString(encoding);
   crypto.scrypt(password, salt, keyLen, (err, result) => {
     if (err) reject(err);
