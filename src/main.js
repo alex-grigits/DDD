@@ -8,7 +8,8 @@ const server = require(transportPath);
 const staticServer = require('./static.js')(config.staticServer);
 const db = require('./db.js')(config.dbAccessParameters);
 const hash = require('./hash.js')(config.hashOptions);
-const logger = require('./logger.js')(config.logger);
+const loggerPath = `./logger/${config.logger.type}.js`
+const logger = require(loggerPath)(config.logger);
 
 const dependencies = {
   console: Object.freeze(logger),

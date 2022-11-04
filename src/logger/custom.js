@@ -36,6 +36,16 @@ class Logger {
     this.write('info', msg);
   }
 
+  info(...args) {
+    const msg = util.format(...args);
+    this.write('info', msg);
+  }
+
+  warn(...args) {
+    const msg = util.format(...args);
+    this.write('warn', msg);
+  }
+
   dir(...args) {
     const msg = util.inspect(...args);
     this.write('info', msg);
