@@ -5,10 +5,10 @@ const path = require('node:path');
 const config = require('./config');
 const transportPath = `./transport/${config.apiServer.transport}.js`;
 const server = require(transportPath);
-const staticServer = require('./static.js')(config.staticServer);
+const staticServer = require('./static.js');
 const db = require('./db.js')(config.dbAccessParameters);
 const hash = require('./hash.js')(config.hashOptions);
-const loggerPath = `./logger/${config.logger.type}.js`
+const loggerPath = `./logger/${config.logger.type}.js`;
 const logger = require(loggerPath)(config.logger);
 
 const dependencies = {
@@ -31,6 +31,6 @@ const routing = {};
     routing[serviceName] = require(filePath)(dependencies);
   }
 
-  staticServer({ services });
+  staticServer(config.staticServer);
   server(routing, config.apiServer.port);
 })();

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="client.js"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -24,5 +23,13 @@
     </div>
     <pre id="output"></pre>
     <footer>HTML</footer>
+    <script type="importmap">
+      {
+        "imports": {
+          "app": "./app.js"
+        }
+      }
+    </script>
+    <script type="module" src="client.js"></script>
   </body>
 </html>
