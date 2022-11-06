@@ -1,5 +1,3 @@
-
-
 import { initForm } from './form.js';
 
 const config = {

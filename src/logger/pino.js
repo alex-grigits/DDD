@@ -1,20 +1,14 @@
 'use strict';
 
-const fs = require('node:fs');
-const path = require('node:path');
 const pino = require('pino');
+const Logger = require('./Logger');
 
-class Logger {
-  constructor(config, logPath) {
-    if (!fs.existsSync(logPath)) {
-      fs.mkdirSync(logPath);
-    }
-    this.config = config;
-    this.path = logPath;
-    const date = new Date().toISOString().substring(0, 10);
-    const filePath = path.join(logPath, `${date}.log`);
+class Pino extends Logger {
+  constructor(filePath) {
+    super();
+    this.filePath = filePath;
     this.writeLogger = pino();
-    this.logger = pino(pino.destination(filePath));
+    this.logger = pino(pino.destination(this.filePath));
   }
 
   log(...args) {
@@ -46,16 +40,6 @@ class Logger {
     this.writeLogger.error(args);
     this.logger.error(args);
   }
-
-  system(...args) {
-    this.writeLogger.info(args);
-    this.logger.info(args);
-  }
-
-  access(...args) {
-    this.writeLogger.info(args);
-    this.logger.info(args);
-  }
 }
 
-module.exports = (config) => new Logger(config, './log');
+module.exports = Pino;

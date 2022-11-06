@@ -18,7 +18,7 @@ const HEADERS = {
   'Access-Control-Allow-Headers': '*',
 };
 
-module.exports = (routing, port) => {
+module.exports = (routing, port, console) => {
   http.createServer(async (req, res) => {
     res.writeHead(200, HEADERS);
     const { method, url, socket } = req;
