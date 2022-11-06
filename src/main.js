@@ -2,14 +2,13 @@
 
 const fsp = require('node:fs').promises;
 const path = require('node:path');
-const config = require('./config');
+const config = require('./config.js');
 const transportPath = `./transport/${config.apiServer.transport}.js`;
 const server = require(transportPath);
 const staticServer = require('./static.js');
 const db = require('./db.js')(config.dbAccessParameters);
 const hash = require('./hash.js')(config.hashOptions);
-const loggerPath = `./logger/${config.logger.type}.js`;
-const logger = require(loggerPath)(config.logger);
+const logger = require('./logger/index.js')(config.logger);
 
 const dependencies = {
   console: Object.freeze(logger),
@@ -31,6 +30,6 @@ const routing = {};
     routing[serviceName] = require(filePath)(dependencies);
   }
 
-  staticServer(config.staticServer);
-  server(routing, config.apiServer.port);
+  staticServer(config.staticServer, logger);
+  server(routing, config.apiServer.port, logger);
 })();

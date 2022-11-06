@@ -34,7 +34,7 @@ const prepareFile = async (staticRoot, url) => {
   return { found, ext, stream };
 };
 
-module.exports = (config) => {
+module.exports = (config, console) => {
   http.createServer(async (req, res) => {
     const file = await prepareFile(config.root, req.url);
     const statusCode = file.found ? 200 : 404;

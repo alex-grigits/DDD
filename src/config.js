@@ -27,16 +27,7 @@ module.exports = {
     displayErrors: false,
   },
   logger: {
-    type: 'pino', // 'custom' | 'pino'
-    colors: {
-      log: '\x1b[1;39m',
-      info: '\x1b[1;32m',
-      warn: '\x1b[1;33m',
-      debug: '\x1b[1;36m',
-      error: '\x1b[0;31m',
-      system: '\x1b[1;34m',
-      access: '\x1b[1;38m',
-    },
-    dateTimeLength: 19,
+    name: 'custom', // 'custom' | 'pino'
+    root: './log',
   }
 };
