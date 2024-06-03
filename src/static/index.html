@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="controls">
+      <ul>
+        <li>
+          <input  type="radio" name="service" value="city" id="city" checked />
+          <label for="city">City</label>
+        </li>
+        <li>
+          <input  type="radio" name="service" value="country" id="country" />
+          <label for="country">Country</label>
+        </li>
+        <li>
+          <input  type="radio" name="service" value="user" id="user" />
+          <label for="user">User</label>
+        </li>
+      </ul>
+      <button id="getAllData">Get all data</button>
+    </div>
+    <pre id="output"></pre>
+    <footer>HTML</footer>
+    <script type="importmap">
+      {
+        "imports": {
+          "app": "./app.js"
+        }
+      }
+    </script>
+    <script type="module" src="client.js"></script>
+  </body>
+</html>
